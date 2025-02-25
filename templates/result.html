@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - Loan Approval Prediction</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('/static/approved.jpg') no-repeat center center fixed; /* Path to your image */
+    background-size: cover; /* Make backgroundthe image cover the entire viewport */
+    color: #333; /* Ensure text remains readable */
+}
+        /* Navbar styling */
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .navbar .title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* Container styling */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="title">Loan Approval Prediction</div>
+        <a href="/predict">Prediction Page</a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Prediction Result</h2>
+        <div class="result">
+            {% if prediction_text == 'Loan approved.' %}
+                <p>Loan APPROVED</p>
+            {% elif prediction_text == 'Loan not approved.' %}
+                <p>Loan NOT APPROVED</p>
+            {% else %}
+                <p>No result to display yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

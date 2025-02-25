@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Approval Prediction</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    /* Remove height and overflow restrictions */
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+        /* Video Background Styling */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Behind all other content */
+        }
+
+       
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video class="video-bg" autoplay muted loop>
+        <source src="/static/loan.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <h2>Loan Approval Prediction</h2>
+        <form id="loanForm" action="/result" method="post">
+            <label for="gender">Gender (1 for Male, 0 for Female):</label>
+            <input type="text" id="gender" name="gender" required>
+            <div id="genderError" class="error"></div>
+
+            <label for="married">Married (1 for Yes, 0 for No):</label>
+            <input type="text" id="married" name="married" required>
+            <div id="marriedError" class="error"></div>
+
+            <label for="dependents">Dependents:</label>
+            <input type="text" id="dependents" name="dependents" required>
+
+            <label for="education">Education (1 for Graduate, 0 for Not Graduate):</label>
+            <input type="text" id="education" name="education" required>
+            <div id="educationError" class="error"></div>
+
+            <label for="self_employed">Self Employed (1 for Yes, 0 for No):</label>
+            <input type="text" id="self_employed" name="self_employed" required>
+            <div id="selfEmployedError" class="error"></div>
+
+            <label for="applicantincome">Applicant Income:</label>
+            <input type="text" id="applicantincome" name="applicantincome" required>
+
+            <label for="coapplicantincome">Coapplicant Income:</label>
+            <input type="text" id="coapplicantincome" name="coapplicantincome" required>
+
+            <label for="loanamount">Loan Amount:</label>
+            <input type="text" id="loanamount" name="loanamount" required>
+
+            <label for="loanamountterm">Loan Amount Term:</label>
+            <input type="text" id="loanamountterm" name="loanamountterm" required>
+
+            <label for="credithistory">Credit History (1 for Yes, 0 for No):</label>
+            <input type="text" id="credithistory" name="credithistory" required>
+            <div id="creditHistoryError" class="error"></div>
+
+            <label for="propertyarea">Property Area (0 for Rural, 1 for Semiurban, 2 for Urban):</label>
+            <input type="text" id="propertyarea" name="propertyarea" required>
+            <div id="propertyAreaError" class="error"></div>
+
+            <input type="submit" value="Predict">
+        </form>
+
+    </div>
+
+    <script>
+        document.getElementById('loanForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Validate Gender
+            const gender = document.getElementById('gender').value;
+            const genderError = document.getElementById('genderError');
+            if (gender !== '0' && gender !== '1') {
+                genderError.textContent = "Gender must be 0 or 1.";
+                isValid = false;
+            } else {
+                genderError.textContent = "";
+            }
+
+            // Validate Married
+            const married = document.getElementById('married').value;
+            const marriedError = document.getElementById('marriedError');
+            if (married !== '0' && married !== '1') {
+                marriedError.textContent = "Married must be 0 or 1.";
+                isValid = false;
+            } else {
+                marriedError.textContent = "";
+            }
+
+            // Validate Education
+            const education = document.getElementById('education').value;
+            const educationError = document.getElementById('educationError');
+            if (education !== '0' && education !== '1') {
+                educationError.textContent = "Education must be 0 or 1.";
+                isValid = false;
+            } else {
+                educationError.textContent = "";
+            }
+
+            // Validate Self Employed
+            const selfEmployed = document.getElementById('self_employed').value;
+            const selfEmployedError = document.getElementById('selfEmployedError');
+            if (selfEmployed !== '0' && selfEmployed !== '1') {
+                selfEmployedError.textContent = "Self Employed must be 0 or 1.";
+                isValid = false;
+            } else {
+                selfEmployedError.textContent = "";
+            }
+
+            // Validate Credit History
+            const creditHistory = document.getElementById('credithistory').value;
+            const creditHistoryError = document.getElementById('creditHistoryError');
+            if (creditHistory !== '0' && creditHistory !== '1') {
+                creditHistoryError.textContent = "Credit History must be 0 or 1.";
+                isValid = false;
+            } else {
+                creditHistoryError.textContent = "";
+            }
+
+            // Validate Property Area
+            const propertyArea = document.getElementById('propertyarea').value;
+            const propertyAreaError = document.getElementById('propertyAreaError');
+            if (propertyArea !== '0' && propertyArea !== '1' && propertyArea !== '2') {
+                propertyAreaError.textContent = "Property Area must be 0, 1, or 2.";
+                isValid = false;
+            } else {
+                propertyAreaError.textContent = "";
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
